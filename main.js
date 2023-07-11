@@ -50,17 +50,24 @@ const createWindow = () => {
   window = new BrowserWindow({
     width: 300,
     height: 450,
-    show: false,
+    show: true,
     frame: false,
     fullscreenable: false,
-    resizable: false,
+    resizable: true,
     webPreferences: {
       // Prevents renderer process code from not running when window is
       // hidden
+         nodeIntegration: true,
+        contextIsolation: false,
+        'overlay-fullscreen-video': true,
+        backgroundThrottling: false,
+          focusable: false, 
+        webSecurity: false,
       backgroundThrottling: false
     }
   })
-  window.loadURL(`file://${path.join(__dirname, 'index.html')}`)
+ // window.loadURL(`file://${path.join(__dirname, 'models/holistic/index.html')}`)
+    	window.loadFile("./models/holistic/index.html");
 
   // Hide the window when it loses focus
   window.on('blur', () => {
