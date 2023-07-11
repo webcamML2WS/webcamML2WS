@@ -20,6 +20,8 @@ a:hover {
 
 body {
   bottom: 0;
+  width: 100vw;
+  height: 100vh;
   font-family: "Titillium Web", sans-serif;
   color: white;
   left: 0;

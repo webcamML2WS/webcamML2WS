@@ -53,7 +53,7 @@ const createWindow = () => {
     show: true,
     frame: false,
     fullscreenable: false,
-    resizable: true,
+    resizable: false,
     webPreferences: {
       // Prevents renderer process code from not running when window is
       // hidden
@@ -68,6 +68,14 @@ const createWindow = () => {
   })
  // window.loadURL(`file://${path.join(__dirname, 'models/holistic/index.html')}`)
     	window.loadFile("./models/holistic/index.html");
+
+      const { screen } = require('electron')
+
+      const primaryDisplay = screen.getPrimaryDisplay()
+  const { width, height } = primaryDisplay.size;
+            window.setPosition(0,0);
+
+    window.setSize(width-20, parseInt(width-20 * 9 / 16));
 
   // Hide the window when it loses focus
   window.on('blur', () => {
