@@ -73,10 +73,12 @@ const createWindow = () => {
 
       const primaryDisplay = screen.getPrimaryDisplay()
   const { width, height } = primaryDisplay.size;
-            window.setPosition(0,0);
+          //  window.setPosition(0,0);
 
-    window.setSize(width-20, parseInt(width-20 * 9 / 16));
+    var x = width - 300;
+    window.setSize(x, parseInt((x) * 9 / 16));
 
+    window.setPosition(300, 0, false);
   // Hide the window when it loses focus
   window.on('blur', () => {
     if (!window.webContents.isDevToolsOpened()) {
