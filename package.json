@@ -1,25 +1,19 @@
 {
-  "name": "weathered",
-  "productName": "Weathered",
+  "name": "webcamml2ws",
+  "productName": "webcamml2ws",
   "version": "1.0.0",
   "main": "main.js",
-  "license": "ISC",
-  "author": "Kevin Sawicki",
+  "license": "GNU GPL3",
+  "author": "Tejaswi Gowda",
   "scripts": {
     "start": "electron .",
     "package": "electron-packager ./ --platform=darwin --arch=x64 --out=out --icon=./icon.icns --overwrite"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kevinsawicki/tray-example.git"
-  },
-  "bugs": {
-    "url": "https://github.com/kevinsawicki/tray-example/issues"
-  },
-  "homepage": "https://github.com/kevinsawicki/tray-example#readme",
   "dependencies": {
     "electron": "^11.5.0",
     "socket.io": "^4.7.1",
     "socket.io-client": "^4.7.1"
-  }
+  },
+  "description": "",
+  "devDependencies": {}
 }
