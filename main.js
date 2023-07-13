@@ -60,7 +60,6 @@ const createWindow = () => {
          nodeIntegration: true,
         contextIsolation: false,
         'overlay-fullscreen-video': true,
-        backgroundThrottling: false,
           focusable: false, 
         webSecurity: false,
       backgroundThrottling: false
@@ -70,11 +69,7 @@ const createWindow = () => {
     	window.loadFile("./models/holistic/index.html");
     // access camera permission
     
-    const { askForCameraAccess } = require('node-mac-permissions')
 
-askForCameraAccess().then(status => {
-  console.log(`Access to Camera is ${status}`)
-})
 
 
       const { screen } = require('electron')

@@ -7,7 +7,7 @@ const controlsElement =
     document.getElementsByClassName('control-panel')[0];
 const canvasCtx = canvasElement.getContext('2d');
 
-/*
+
 
 const SocketIOClient = require("socket.io-client");
 const io = new SocketIOClient("http://localhost:4512");
@@ -17,9 +17,8 @@ socket.on("connect", () => {
 });
 
 function sendToMaxPatch(poses) {
-	socket.emit("dispatch", [poses]);
+    	socket.emit("dispatch", [poses]);
 }
-*/
 
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
@@ -64,7 +63,7 @@ function connect(ctx, connectors) {
 }
 
 function onResults(results) {
-  //    		sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
+      		sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
   // Hide the spinner.
   document.body.classList.add('loaded');
 
@@ -170,8 +169,8 @@ const camera = new Camera(videoElement, {
   onFrame: async () => {
     await holistic.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: 640,//1280,
+  height: 360,//720
 });
 camera.start();
 
