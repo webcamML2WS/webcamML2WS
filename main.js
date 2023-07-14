@@ -53,6 +53,7 @@ const createWindow = () => {
     show: true,
     frame: false,
     fullscreenable: false,
+    icon: path.join(assetsDirectory, 'icon.png'),
     resizable: false,
     webPreferences: {
       // Prevents renderer process code from not running when window is
