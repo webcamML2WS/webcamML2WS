@@ -71,6 +71,10 @@ const createWindow = () => {
     // access camera permission
     
 
+    const { systemPreferences } = require('electron')
+
+//const microphone = systemPreferences.askForMediaAccess('microphone');
+const camera = systemPreferences.askForMediaAccess('camera');
 
 
       const { screen } = require('electron')

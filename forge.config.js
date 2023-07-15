@@ -6,25 +6,36 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+        config: {
+            icon: "./assets/icon.icns"
+        }
     },
     {
-      name: '@electron-forge/maker-zip',
+      name: '@electron-forge/maker-dmg',
       platforms: ['darwin'],
+        config: {
+            icon: "./assets/icon.icns"
+        }
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+        config: {
+            icon: "./assets/icon.icns"
+        }
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
+        config: {
+            icon: "./assets/icon.icns"
+        }
     },
   ],
   plugins: [
     {
       name: '@electron-forge/plugin-auto-unpack-natives',
-      config: {},
+        config: {
+            icon: "./assets/icon.icns"
+        }
     },
   ],
 };
