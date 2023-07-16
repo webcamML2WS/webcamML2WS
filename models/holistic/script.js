@@ -8,7 +8,6 @@ const controlsElement =
 const canvasCtx = canvasElement.getContext('2d');
 
 
-
 const SocketIOClient = require("socket.io-client");
 const io = new SocketIOClient("http://localhost:4512");
 const socket = io.connect();
@@ -19,6 +18,19 @@ socket.on("connect", () => {
 function sendToMaxPatch(poses) {
     	socket.emit("dispatch", [poses]);
 }
+
+/*
+const ws = new WebSocket("ws://localhost:4512");
+ws.onopen = function() {
+    console.log("Connected to Max 8");
+};
+
+function sendToMaxPatch(poses) {
+    ws.send(JSON.stringify(poses));
+}
+*/
+
+
 
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
