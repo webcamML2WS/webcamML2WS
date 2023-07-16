@@ -132,3 +132,15 @@ body {
   position: absolute;
 }
 
+
+#closeButton{
+    position:fixed;
+    right: 10px;
+    top: 10px;
+    font-size: 50px;
+    background: none;
+    color: white;
+    text-shadow: black 0px 0px 10px;
+    box-shadow: none;
+    border:none;
+}

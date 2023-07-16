@@ -22,3 +22,11 @@
 document.getElementsByClassName("control-panel")[0].innerHTML =
     '<button id="closeButton" onclick="closeBrowser()">&#x2715</button>' +
     document.getElementsByClassName("control-panel")[0].innerHTML 
+
+
+function closeBrowser() {
+    var x = confirm("Are you sure you want to close the app?");
+    if (x) {
+        window.close();
+    }
+}
