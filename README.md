@@ -17,7 +17,8 @@ electron .
 ## Packaging
 
 ```sh
-electron-packager . --icon assets/icon.icns --overwrite
+electron-packager . --icon assets/icon.icns --overwrite # macos
+electron-packager . --icon assets/icon.ico --overwrite  # windows
 
 ```
 
