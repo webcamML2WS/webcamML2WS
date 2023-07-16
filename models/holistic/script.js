@@ -174,8 +174,7 @@ const camera = new Camera(videoElement, {
 });
 camera.start();
 
-// Present a control panel through which the user can manipulate the solution
-// options.
+
 new ControlPanel(controlsElement, {
       selfieMode: true,
       upperBodyOnly: true,
@@ -184,7 +183,7 @@ new ControlPanel(controlsElement, {
       minTrackingConfidence: 0.5
     })
     .add([
-      new StaticText({title: 'Holistic'}),
+      new StaticText({title: 'Pose'}),
       fpsControl,
       new Toggle({title: 'Selfie Mode', field: 'selfieMode'}),
       new Toggle({title: 'Upper-body Only', field: 'upperBodyOnly'}),
@@ -207,5 +206,4 @@ new ControlPanel(controlsElement, {
       videoElement.classList.toggle('selfie', options.selfieMode);
       holistic.setOptions(options);
     });
-
 

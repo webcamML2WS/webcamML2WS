@@ -91,6 +91,7 @@ body {
   left:0;
   padding: 50px;
   background-color: black;
+    -webkit-app-region: no-drag;
 }
 
 .loading {
