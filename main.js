@@ -12,6 +12,8 @@ app.dock.hide()
 app.on('ready', () => {
   createTray()
   createWindow()
+    app.allowRendererProcessReuse = false;
+    app.commandLine.appendSwitch('ignore-certificate-errors');
 })
 
 // Quit the app when the window is closed

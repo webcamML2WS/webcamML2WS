@@ -8,6 +8,7 @@ const controlsElement =
 const canvasCtx = canvasElement.getContext('2d');
 
 
+/*
 const SocketIOClient = require("socket.io-client");
 const io = new SocketIOClient("http://localhost:4512");
 const socket = io.connect();
@@ -18,17 +19,46 @@ socket.on("connect", () => {
 function sendToMaxPatch(poses) {
     	socket.emit("dispatch", [poses]);
 }
+*/
 
-/*
-const ws = new WebSocket("ws://localhost:4512");
-ws.onopen = function() {
-    console.log("Connected to Max 8");
-};
+//uWebSockets.js/NodeJS
+
+
+
+var ws;
+function connectws() {
+  ws = new WebSocket("ws://127.0.0.1:44444");
+  ws.onopen = function() {
+    // subscribe to some channels
+    ws.send(JSON.stringify({
+        //.... some message the I must send when I connect ....
+    }));
+  };
+
+  ws.onmessage = function(e) {
+    console.log('Message:', e.data);
+  };
+
+  ws.onclose = function(e) {
+    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+      connectws();
+    }, 1000);
+  };
+
+  ws.onerror = function(err) {
+    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    ws.close();
+  };
+}
+
+connectws();
+
+
 
 function sendToMaxPatch(poses) {
     ws.send(JSON.stringify(poses));
 }
-*/
 
 
 
@@ -75,7 +105,8 @@ function connect(ctx, connectors) {
 }
 
 function onResults(results) {
-      		sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
+      	//	sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
+      		sendToMaxPatch(results);
   // Hide the spinner.
   document.body.classList.add('loaded');
 
