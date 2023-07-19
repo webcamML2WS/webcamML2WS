@@ -205,5 +205,6 @@ new ControlPanel(controlsElement, {
     ])
     .on(options => {
       videoElement.classList.toggle('selfie', options.selfieMode);
+        console.log(options);
       pose.setOptions(options);
     });

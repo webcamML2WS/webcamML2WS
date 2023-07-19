@@ -64,7 +64,7 @@ function sendToMaxPatch(poses) {
 
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
-const fpsControl = new FPS();
+//const fpsControl = new FPS();
 
 // Optimization: Turn off animated spinner after its hiding animation is done.
 const spinner = document.querySelector('.loading');
@@ -114,7 +114,6 @@ function onResults(results) {
   removeLandmarks(results);
 
   // Update the frame rate.
-  fpsControl.tick();
 
   // Draw the overlays.
   canvasCtx.save();
@@ -204,6 +203,7 @@ const holistic = new Holistic({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.1/${file}`;
 }});
 holistic.onResults(onResults);
+theModel = holistic;
 
 /**
  * Instantiate a camera. We'll feed each frame we receive into the solution.
@@ -216,37 +216,4 @@ const camera = new Camera(videoElement, {
   height: 720
 });
 camera.start();
-
-
-new ControlPanel(controlsElement, {
-      selfieMode: true,
-      upperBodyOnly: true,
-      smoothLandmarks: true,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
-    })
-    .add([
-      new StaticText({title: 'Pose'}),
-      fpsControl,
-      new Toggle({title: 'Selfie Mode', field: 'selfieMode'}),
-      new Toggle({title: 'Upper-body Only', field: 'upperBodyOnly'}),
-      new Toggle(
-          {title: 'Smooth Landmarks', field: 'smoothLandmarks'}),
-      new Slider({
-        title: 'Min Detection Confidence',
-        field: 'minDetectionConfidence',
-        range: [0, 1],
-        step: 0.01
-      }),
-      new Slider({
-        title: 'Min Tracking Confidence',
-        field: 'minTrackingConfidence',
-        range: [0, 1],
-        step: 0.01
-      }),
-    ])
-    .on(options => {
-      videoElement.classList.toggle('selfie', options.selfieMode);
-      holistic.setOptions(options);
-    });
 

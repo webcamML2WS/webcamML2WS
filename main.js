@@ -70,6 +70,7 @@ const createWindow = () => {
   })
  // window.loadURL(`file://${path.join(__dirname, 'models/holistic/index.html')}`)
     	window.loadFile("./models/holistic/index.html");
+  //  	window.loadFile("./models/pose/index.html");
     // access camera permission
     
 

@@ -1,32 +1,126 @@
-  var onresize = function() {
-       width = document.body.clientWidth;
-       height = document.body.clientHeight;
-       document.getElementsByClassName("container")[0].style.transform = "scale(" + width/1280 + ")";
-       document.getElementsByClassName("container")[0].style.transformOrigin = "0 0";
+var theModel;
+
+javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='https://mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+
+function getXMLHTTPRequest()
+{
+    var request;
+    // Lets try using ActiveX to instantiate the XMLHttpRequest object
+    try{
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+    }catch(ex1){
+        try{
+            request = new ActiveXObject("Msxml2.XMLHTTP");
+        }catch(ex2){
+            request = null;
+        }
     }
-    
-
-        window.addEventListener("resize", onresize);
-    onresize();
-
-
-    document.body.addEventListener("mouseenter", function() {
-      document.getElementsByClassName("control-panel")[1].style.transition= "all 1s";
-      document.getElementsByClassName("control-panel")[1].style.marginLeft= "0px"
-    });
-    document.body.addEventListener("mouseleave", function(){
-      document.getElementsByClassName("control-panel")[1].style.marginLeft= "-450px"
-    });
+    // If the previous didn't work, lets check if the browser natively support XMLHttpRequest 
+    if(!request && typeof XMLHttpRequest != "undefined"){
+        //The browser does, so lets instantiate the object
+        request = new XMLHttpRequest();
+    }
+    return request;
+}
 
 
-document.getElementsByClassName("control-panel")[0].innerHTML =
-    '<button id="closeButton" onclick="closeBrowser()">&#x2715</button>' +
-    document.getElementsByClassName("control-panel")[0].innerHTML 
+function loadFile(filename, callback)
+{
+    var aXMLHttpRequest = getXMLHTTPRequest();
+    var allData;
+    if (aXMLHttpRequest)
+    {
+        aXMLHttpRequest.open("GET", filename, true);
+
+        aXMLHttpRequest.onreadystatechange = function (aEvt) {
+            if(aXMLHttpRequest.readyState == 4){
+                allData = aXMLHttpRequest.responseText;
+                callback(allData)
+            }
+        };
+
+        //Lets fire off the request
+        aXMLHttpRequest.send(null);
+    }
+    else
+    {
+        //Oh no, the XMLHttpRequest object couldn't be instantiated.
+        alert("A problem occurred instantiating the XMLHttpRequest object.");
+    }
+}
+
+
+var onresize = function() {
+    width = document.body.clientWidth;
+    height = document.body.clientHeight;
+    document.getElementsByClassName("container")[0].style.transform = "scale(" + width/1280 + ")";
+    document.getElementsByClassName("container")[0].style.transformOrigin = "0 0";
+}
+
+
+window.addEventListener("resize", onresize);
+onresize();
+
+/*
+document.body.addEventListener("mouseenter", function() {
+    document.getElementById("controls").style.transition= "all 1s";
+    document.getElementById("controls").style.marginLeft= "0px"
+});
+document.body.addEventListener("mouseleave", function(){
+    document.getElementById("controls").style.marginLeft= "-450px"
+});
+
+setTimeout(function(){
+    document.getElementById("controls").style.marginLeft= "-450px"
+}, 3*1000);
+*/
 
 
 function closeBrowser() {
-    var x = confirm("Are you sure you want to close the app?");
+    var x = confirm("Are you sure you want to exit?");
     if (x) {
         window.close();
     }
+}
+
+
+
+const dat = require('dat.gui');
+var modelSettings = {
+    'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
+    selfie: false,
+    complexity: 0,
+    detectionThreshold: 0.5,
+    trackingThreshold: 0.5
+};
+
+var allModels = ['holistic', 'pose', 'hands', 'objects'];
+//allModels.splice(allModels.indexOf(modelSettings.model), 1);
+
+const gui = new dat.GUI();
+
+
+gui.add(modelSettings, 'model', allModels).onChange(function(newModel) {
+   // changeModel(newModel);
+});
+
+gui.add(modelSettings, 'selfie').onChange(function (value) {
+  updateModel();
+});
+
+gui.add(modelSettings, 'complexity', 0, 2).step(1).onChange(function (value) {
+  updateModel();
+});
+
+function updateModel()
+{
+    theModel.setOptions({
+  modelComplexity: modelSettings.complexity,
+  smoothLandmarks: true,
+  enableSegmentation: true,
+  smoothSegmentation: true,
+  refineFaceLandmarks: true,
+  minDetectionConfidence: modelSettings.detectionThreshold,
+  minTrackingConfidence: modelSettings.trackingThreshold
+});
 }

@@ -20,8 +20,6 @@ a:hover {
 
 body {
   bottom: 0;
-  width: 100vw;
-  height: 100vh;
   font-family: "Titillium Web", sans-serif;
   color: white;
   left: 0;
@@ -31,19 +29,18 @@ body {
   top: 0;
   transform-origin: 0px 0px;
   overflow: hidden;
-  -webkit-user-select: none;
-  background-color: black;
 }
 
 .container {
   position: absolute;
-  background-color: black;
-  height: 720px;
-  width: 1280px;
+  background-color: #596e73;
+  width: 100%;
+  max-height: 100%;
 }
 
 .input_video {
-  position: relative;
+  display: none;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -53,10 +50,22 @@ body {
   transform: scale(-1, 1);
 }
 
-.output_canvas {
+.input_image {
   position: absolute;
-  height: 720px;
-  width: 1280px;
+}
+
+.canvas-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.output_canvas {
+  max-width: 100%;
+  display: block;
+  position: relative;
   left: 0;
   top: 0;
 }
@@ -77,18 +86,10 @@ body {
   top: 20px;
 }
 
-#controls{
+.control-panel {
   position: absolute;
   left: 10px;
   top: 10px;
-    -webkit-app-region: no-drag;
-  overflow-y:auto;
-  height: 100vh;
-  top:0;
-  left:0;
-  padding: 50px;
-  background-color: black;
-    -webkit-app-region: no-drag;
 }
 
 .loading {
@@ -128,17 +129,4 @@ body {
   text-align: center;
   font-size: 24px;
   position: absolute;
-}
-
-
-#closeButton{
-    position:fixed;
-    right: 10px;
-    top: 10px;
-    font-size: 50px;
-    background: none;
-    color: white;
-    text-shadow: black 0px 0px 10px;
-    box-shadow: none;
-    border:none;
 }
