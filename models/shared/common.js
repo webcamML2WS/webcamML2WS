@@ -88,34 +88,59 @@ function closeBrowser() {
 const dat = require('dat.gui');
 var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
+    inputSize: 100,
     selfie: false,
-    complexity: 0,
+    complexity: ['lite', 'full', 'heavy'][0],
     detectionThreshold: 0.5,
     trackingThreshold: 0.5
 };
 
 var allModels = ['holistic', 'pose', 'hands', 'objects'];
-//allModels.splice(allModels.indexOf(modelSettings.model), 1);
+allModels.splice(allModels.indexOf(modelSettings.model), 1);
+
+allModels = [modelSettings.model].concat(allModels);
 
 const gui = new dat.GUI();
 
 
-gui.add(modelSettings, 'model', allModels).onChange(function(newModel) {
+
+// add heading
+
+
+const modelFolder = gui.addFolder('Switch Model');
+modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
    // changeModel(newModel);
 });
 
-gui.add(modelSettings, 'selfie').onChange(function (value) {
+const settFolder = gui.addFolder('Model Settings');
+
+settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(updateModel);
+
+settFolder.add(modelSettings, 'selfie').onChange(function (value) {
   updateModel();
 });
 
-gui.add(modelSettings, 'complexity', 0, 2).step(1).onChange(function (value) {
+settFolder.add(modelSettings, 'complexity', ['lite', 'full','heavy']).onChange(function (value) {
   updateModel();
 });
+
+settFolder.add(modelSettings, 'detectionThreshold', 0.0, 1.0).onChange(function (value) {
+    updateModel();
+});
+
+settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (value) {
+    updateModel();
+});
+
+
+modelFolder.open();
+settFolder.open();
+gui.close();
 
 function updateModel()
 {
     theModel.setOptions({
-  modelComplexity: modelSettings.complexity,
+  modelComplexity: ['lite', 'full', 'heavy'].indexOf(modelSettings.complexity),
   smoothLandmarks: true,
   enableSegmentation: true,
   smoothSegmentation: true,
