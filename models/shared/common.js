@@ -88,6 +88,7 @@ function closeBrowser() {
 const dat = require('dat.gui');
 var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
+    ws: localStorage."ws://localhost:44444",
     inputSize: 100,
     selfie: false,
     complexity: ['lite', 'full', 'heavy'][0],
@@ -109,7 +110,17 @@ const gui = new dat.GUI();
 
 const modelFolder = gui.addFolder('Switch Model');
 modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
-   // changeModel(newModel);
+    if(newModel == window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/","")) {
+        return;
+    }
+    else{
+        window.location.href = "../../models/" + newModel + "/index.html";
+    }
+});
+
+const netFolder = gui.addFolder('Network Settings');
+settFolder.add(modelSettings, 'ws').onChange(function (value) {
+    //updateNetwork();
 });
 
 const settFolder = gui.addFolder('Model Settings');
@@ -117,11 +128,11 @@ const settFolder = gui.addFolder('Model Settings');
 settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(updateModel);
 
 settFolder.add(modelSettings, 'selfie').onChange(function (value) {
-  updateModel();
+    updateModel();
 });
 
 settFolder.add(modelSettings, 'complexity', ['lite', 'full','heavy']).onChange(function (value) {
-  updateModel();
+    updateModel();
 });
 
 settFolder.add(modelSettings, 'detectionThreshold', 0.0, 1.0).onChange(function (value) {
@@ -140,12 +151,12 @@ gui.close();
 function updateModel()
 {
     theModel.setOptions({
-  modelComplexity: ['lite', 'full', 'heavy'].indexOf(modelSettings.complexity),
-  smoothLandmarks: true,
-  enableSegmentation: true,
-  smoothSegmentation: true,
-  refineFaceLandmarks: true,
-  minDetectionConfidence: modelSettings.detectionThreshold,
-  minTrackingConfidence: modelSettings.trackingThreshold
-});
+        modelComplexity: ['lite', 'full', 'heavy'].indexOf(modelSettings.complexity),
+        smoothLandmarks: true,
+        enableSegmentation: true,
+        smoothSegmentation: true,
+        refineFaceLandmarks: true,
+        minDetectionConfidence: modelSettings.detectionThreshold,
+        minTrackingConfidence: modelSettings.trackingThreshold
+    });
 }
