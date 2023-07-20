@@ -88,8 +88,7 @@ function closeBrowser() {
 const dat = require('dat.gui');
 var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
-    wsip: localStorage.getItem("wsip") || "localhost",
-    wsport: localStorage.getItem("wsport") || 44444,
+    wsurl: localStorage.getItem("wsurl") || "ws://localhost:44444/",
     reload: function() 
     { 
         window.location.reload();
@@ -124,10 +123,8 @@ modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
 });
 
 const netFolder = gui.addFolder('Network Settings');
-netFolder.add(modelSettings, 'wsip').onChange(function (value) {
-    //updateNetwork();
-});
-netFolder.add(modelSettings, 'wsport').onChange(function (value) {
+
+netFolder.add(modelSettings, 'wsurl').onChange(function (value) {
     //updateNetwork();
 });
 
@@ -156,9 +153,10 @@ var misc = gui.addFolder('Misc');
 misc.add(modelSettings, 'reload');
 
 modelFolder.open();
+netFolder.open();
 settFolder.open();
 misc.open();
-gui.close();
+//gui.close();
 
 function updateModel()
 {
