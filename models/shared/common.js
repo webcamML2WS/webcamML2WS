@@ -88,7 +88,12 @@ function closeBrowser() {
 const dat = require('dat.gui');
 var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
-    ws: localStorage."ws://localhost:44444",
+    wsip: localStorage.getItem("wsip") || "localhost",
+    wsport: localStorage.getItem("wsport") || 44444,
+    reload: function() 
+    { 
+        window.location.reload();
+    },
     inputSize: 100,
     selfie: false,
     complexity: ['lite', 'full', 'heavy'][0],
@@ -119,11 +124,15 @@ modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
 });
 
 const netFolder = gui.addFolder('Network Settings');
-settFolder.add(modelSettings, 'ws').onChange(function (value) {
+netFolder.add(modelSettings, 'wsip').onChange(function (value) {
+    //updateNetwork();
+});
+netFolder.add(modelSettings, 'wsport').onChange(function (value) {
     //updateNetwork();
 });
 
 const settFolder = gui.addFolder('Model Settings');
+
 
 settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(updateModel);
 
@@ -143,9 +152,12 @@ settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (
     updateModel();
 });
 
+var misc = gui.addFolder('Misc');
+misc.add(modelSettings, 'reload');
 
 modelFolder.open();
 settFolder.open();
+misc.open();
 gui.close();
 
 function updateModel()

@@ -27,7 +27,7 @@ function sendToMaxPatch(poses) {
 
 var ws;
 function connectws() {
-  ws = new WebSocket("ws://127.0.0.1:44444");
+  ws = new WebSocket("ws://" + modelSettings.wsip + ":" + modelSettings.wsport);
   ws.onopen = function() {
     // subscribe to some channels
     ws.send(JSON.stringify({
