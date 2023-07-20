@@ -105,7 +105,7 @@ var modelSettings = {
 
 modelSettings[modelSettings.model] = modelSettings.title;
 
-var allModels = ['holistic', 'pose', 'hands', 'objects'];
+var allModels = ['holistic', 'pose', 'hands', 'face'];
 allModels.splice(allModels.indexOf(modelSettings.model), 1);
 
 allModels = [modelSettings.model].concat(allModels);

@@ -6,6 +6,7 @@ const canvasElement =
 const controlsElement =
     document.getElementsByClassName('control-panel')[0];
 const canvasCtx = canvasElement.getContext('2d');
+var lerp = require('lerp')
 
 
 /*
@@ -120,6 +121,46 @@ function onResults(results) {
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
+    if (results.multiHandLandmarks && results.multiHandedness) {
+    for (let index = 0; index < results.multiHandLandmarks.length; index++) {
+        const classification = results.multiHandedness[index];
+        const isRightHand = classification.label === 'Right';
+        const landmarks = results.multiHandLandmarks[index];
+        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS, { color: isRightHand ? '#00FF00' : '#FF0000' });
+        drawLandmarks(canvasCtx, landmarks, {
+            color: isRightHand ? '#00FF00' : '#FF0000',
+            fillColor: isRightHand ? '#FF0000' : '#00FF00',
+            radius: (data) => {
+               // return lerp(data.from.z, -0.15, .1, 10, 1);
+                return 10;
+            }
+        });
+    }
+    }
+
+    if (results.multiHandWorldLandmarks) {
+    // We only get to call updateLandmarks once, so we need to cook the data to
+    // fit. The landmarks just merge, but the connections need to be offset.
+    const landmarks = results.multiHandWorldLandmarks.reduce((prev, current) => [...prev, ...current], []);
+    const colors = [];
+    let connections = [];
+    for (let loop = 0; loop < results.multiHandWorldLandmarks.length; ++loop) {
+        const offset = loop * HAND_CONNECTIONS.length;
+        const offsetConnections = HAND_CONNECTIONS.map((connection) => [connection[0] + offset, connection[1] + offset]);
+        connections = connections.concat(offsetConnections);
+        const classification = results.multiHandedness[loop];
+        colors.push({
+            list: offsetConnections.map((unused, i) => i + offset),
+            color: classification.label,
+        });
+    }
+   // grid.updateLandmarks(landmarks, connections, colors);
+}
+else {
+   // grid.updateLandmarks([]);
+}
+
+    /*
   // Pose...
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
@@ -128,10 +169,10 @@ function onResults(results) {
       canvasCtx, results.poseLandmarks,
       {color: '#00FF00', fillColor: '#FF0000'});
 
-    /*
   // Hands...
+    if(results.multiHandLandmarks && results.multiHandLandmarks.length >= 0) {
   drawConnectors(
-      canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS,
+      canvasCtx, results.multiHandLandmarks[0], HAND_CONNECTIONS,
       {color: '#00CC00'});
   drawLandmarks(
       canvasCtx, results.rightHandLandmarks, {
@@ -142,8 +183,10 @@ function onResults(results) {
           return lerp(landmark.z, -0.15, .1, 10, 1);
         }
       });
+    }
+    if(results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
   drawConnectors(
-      canvasCtx, results.leftHandLandmarks, HAND_CONNECTIONS,
+      canvasCtx, results.multiHandLandmarks[1], HAND_CONNECTIONS,
       {color: '#CC0000'});
   drawLandmarks(
       canvasCtx, results.leftHandLandmarks, {
@@ -154,6 +197,7 @@ function onResults(results) {
           return lerp(landmark.z, -0.15, .1, 10, 1);
         }
       });
+    }
 
   // Face...
   drawConnectors(
@@ -201,11 +245,11 @@ function onResults(results) {
   canvasCtx.restore();
 }
 
-const pose = new Pose({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.1/${file}`;
+const hands = new Hands({locateFile: (file) => {
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.1/${file}`;
 }});
-pose.onResults(onResults);
-theModel = pose;
+hands.onResults(onResults);
+theModel = hands;
 
 /**
  * Instantiate a camera. We'll feed each frame we receive into the solution.
@@ -213,7 +257,7 @@ theModel = pose;
 var inputSize  = parseInt(localStorage.getItem("inputSize") || 100);
 camera = new Camera(videoElement, {
   onFrame: async () => {
-    await pose.send({image: videoElement});
+    await hands.send({image: videoElement});
   },
   width: 1280 * inputSize/100,
   height: 720 * inputSize/100
