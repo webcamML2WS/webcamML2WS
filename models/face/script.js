@@ -105,6 +105,7 @@ function connect(ctx, connectors) {
 }
 
 function onResults(results) {
+    console.log(results);
       	//	sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
       		sendToMaxPatch(results);
   // Hide the spinner.
@@ -120,6 +121,24 @@ function onResults(results) {
   canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+    if (results.multiFaceLandmarks) {
+    for (const landmarks of results.multiFaceLandmarks) {
+        drawConnectors(canvasCtx, landmarks, FACEMESH_TESSELATION, { color: '#C0C0C070', lineWidth: 1 });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYE, { color: '#FF3030' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_EYEBROW, { color: '#FF3030' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYE, { color: '#30FF30' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_EYEBROW, { color: '#30FF30' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_FACE_OVAL, { color: '#E0E0E0' });
+        drawConnectors(canvasCtx, landmarks, FACEMESH_LIPS, { color: '#E0E0E0' });
+       // if (solutionOptions.refineLandmarks) {
+            drawConnectors(canvasCtx, landmarks, FACEMESH_RIGHT_IRIS, { color: '#FF3030' });
+            drawConnectors(canvasCtx, landmarks, FACEMESH_LEFT_IRIS, { color: '#30FF30' });
+       // }
+    }
+}
+
+    /*
   // Pose...
   drawConnectors(
       canvasCtx, results.poseLandmarks, POSE_CONNECTIONS,
@@ -128,7 +147,6 @@ function onResults(results) {
       canvasCtx, results.poseLandmarks,
       {color: '#00FF00', fillColor: '#FF0000'});
 
-    /*
   // Hands...
   drawConnectors(
       canvasCtx, results.rightHandLandmarks, HAND_CONNECTIONS,
@@ -154,7 +172,6 @@ function onResults(results) {
           return lerp(landmark.z, -0.15, .1, 10, 1);
         }
       });
-
   // Face...
   drawConnectors(
       canvasCtx, results.faceLandmarks, FACEMESH_TESSELATION,
@@ -201,11 +218,11 @@ function onResults(results) {
   canvasCtx.restore();
 }
 
-const pose = new Pose({locateFile: (file) => {
-  return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.1/${file}`;
+const face = new FaceMesh({locateFile: (file) => {
+  return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@0.1/${file}`;
 }});
-pose.onResults(onResults);
-theModel = pose;
+face.onResults(onResults);
+theModel = face;
 
 /**
  * Instantiate a camera. We'll feed each frame we receive into the solution.
@@ -213,7 +230,7 @@ theModel = pose;
 var inputSize  = parseInt(localStorage.getItem("inputSize") || 100);
 camera = new Camera(videoElement, {
   onFrame: async () => {
-    await pose.send({image: videoElement});
+    await face.send({image: videoElement});
   },
   width: 1280 * inputSize/100,
   height: 720 * inputSize/100
