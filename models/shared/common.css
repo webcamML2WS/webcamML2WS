@@ -134,6 +134,7 @@ body {
 .dg .cr.function:first-of-type{
     border:none;
     font-family:Courier;
+    height: 30px;
     font-size: 30px;
     text-transform: uppercase;
     padding: 20px 0px;
