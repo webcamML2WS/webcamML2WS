@@ -176,6 +176,7 @@ camera.start();
 
 // Present a control panel through which the user can manipulate the solution
 // options.
+/*
 new ControlPanel(controlsElement, {
       selfieMode: true,
       upperBodyOnly: true,
@@ -208,3 +209,4 @@ new ControlPanel(controlsElement, {
         console.log(options);
       pose.setOptions(options);
     });
+    */

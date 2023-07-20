@@ -133,16 +133,13 @@ body {
 
 .dg .cr.function:first-of-type{
     border:none;
-    height: 70px;
-}
-
-.dg .cr.function .property-name:first-of-type{
-    text-align:center;
     font-family:Courier;
     font-size: 30px;
     text-transform: uppercase;
     padding: 20px 0px;
+    text-align:center;
 }
+
 
 
 
