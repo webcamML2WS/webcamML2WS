@@ -1,4 +1,6 @@
 var theModel;
+var inputSize = 100;
+var camera;
 
 javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='https://mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
 
@@ -136,8 +138,13 @@ netFolder.add(modelSettings, 'wsurl').onChange(function (value) {
 
 const settFolder = gui.addFolder('Model Settings');
 
+modelSettings.inputSize = parseInt(localStorage.getItem("inputSize") || 100);
 
-settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(updateModel);
+settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(function (value) {
+    localStorage.setItem("inputSize", value);
+    window.location.reload();
+});
+
 
 settFolder.add(modelSettings, 'selfie').onChange(function (value) {
     updateModel();

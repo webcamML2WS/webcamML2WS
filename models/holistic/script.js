@@ -208,12 +208,13 @@ theModel = holistic;
 /**
  * Instantiate a camera. We'll feed each frame we receive into the solution.
  */
-const camera = new Camera(videoElement, {
+var inputSize  = parseInt(localStorage.getItem("inputSize") || 100);
+camera = new Camera(videoElement, {
   onFrame: async () => {
     await holistic.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: 1280 * inputSize/100,
+  height: 720 * inputSize/100
 });
 camera.start();
 
