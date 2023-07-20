@@ -140,14 +140,19 @@ const settFolder = gui.addFolder('Model Settings');
 
 modelSettings.inputSize = parseInt(localStorage.getItem("inputSize") || 100);
 
-settFolder.add(modelSettings, 'inputSize', 0, 100).step(1).onChange(function (value) {
+settFolder.add(modelSettings, 'inputSize', 10, 100).step(1).onChange(function (value) {
     localStorage.setItem("inputSize", value);
     window.location.reload();
 });
 
 
 settFolder.add(modelSettings, 'selfie').onChange(function (value) {
-    updateModel();
+   if(value){
+       document.getElementsByClassName("output_canvas")[0].style.transform = "scale(-1, 1)";
+   }
+    else{
+        document.getElementsByClassName("output_canvas")[0].style.transform = "";
+    }
 });
 
 settFolder.add(modelSettings, 'complexity', ['lite', 'full','heavy']).onChange(function (value) {

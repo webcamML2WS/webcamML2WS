@@ -8,6 +8,7 @@ const controlsElement =
 const canvasCtx = canvasElement.getContext('2d');
 
 
+/*
 const SocketIOClient = require("socket.io-client");
 const io = new SocketIOClient("http://localhost:4512");
 const socket = io.connect();
@@ -16,12 +17,54 @@ socket.on("connect", () => {
 });
 
 function sendToMaxPatch(poses) {
-	socket.emit("dispatch", [poses]);
+    	socket.emit("dispatch", [poses]);
 }
+*/
+
+//uWebSockets.js/NodeJS
+
+
+
+var ws;
+function connectws() {
+  ws = new WebSocket(modelSettings.wsurl);
+  ws.onopen = function() {
+    // subscribe to some channels
+    ws.send(JSON.stringify({
+        //.... some message the I must send when I connect ....
+    }));
+  };
+
+  ws.onmessage = function(e) {
+    console.log('Message:', e.data);
+  };
+
+  ws.onclose = function(e) {
+    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    setTimeout(function() {
+      connectws();
+    }, 1000);
+  };
+
+  ws.onerror = function(err) {
+    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    ws.close();
+  };
+}
+
+connectws();
+
+
+
+function sendToMaxPatch(poses) {
+    ws.send(JSON.stringify(poses));
+}
+
+
 
 // We'll add this to our control panel later, but we'll save it here so we can
 // call tick() each time the graph runs.
-const fpsControl = new FPS();
+//const fpsControl = new FPS();
 
 // Optimization: Turn off animated spinner after its hiding animation is done.
 const spinner = document.querySelector('.loading');
@@ -62,7 +105,8 @@ function connect(ctx, connectors) {
 }
 
 function onResults(results) {
-      		sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
+      	//	sendToMaxPatch([results.rightHandLandmarks, results.leftHandLandmarks, results.faceLandmarks,results.poseLandmarks]);
+      		sendToMaxPatch(results);
   // Hide the spinner.
   document.body.classList.add('loaded');
 
@@ -70,7 +114,6 @@ function onResults(results) {
   removeLandmarks(results);
 
   // Update the frame rate.
-  fpsControl.tick();
 
   // Draw the overlays.
   canvasCtx.save();
@@ -158,55 +201,20 @@ function onResults(results) {
 
 const pose = new Pose({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/pose@0.1/${file}`;
- //   return `https://cdn.jsdelivr.net/gh/webcam-ml4max/webcam-ml4max@latest/node_modules/@mediapipe/pose/${file}`;
 }});
 pose.onResults(onResults);
+theModel = pose;
 
 /**
  * Instantiate a camera. We'll feed each frame we receive into the solution.
  */
-const camera = new Camera(videoElement, {
+var inputSize  = parseInt(localStorage.getItem("inputSize") || 100);
+camera = new Camera(videoElement, {
   onFrame: async () => {
     await pose.send({image: videoElement});
   },
-  width: 1280,
-  height: 720
+  width: 1280 * inputSize/100,
+  height: 720 * inputSize/100
 });
 camera.start();
 
-// Present a control panel through which the user can manipulate the solution
-// options.
-/*
-new ControlPanel(controlsElement, {
-      selfieMode: true,
-      upperBodyOnly: true,
-      smoothLandmarks: true,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
-    })
-    .add([
-      new StaticText({title: 'Pose'}),
-      fpsControl,
-      new Toggle({title: 'Selfie Mode', field: 'selfieMode'}),
-      new Toggle({title: 'Upper-body Only', field: 'upperBodyOnly'}),
-      new Toggle(
-          {title: 'Smooth Landmarks', field: 'smoothLandmarks'}),
-      new Slider({
-        title: 'Min Detection Confidence',
-        field: 'minDetectionConfidence',
-        range: [0, 1],
-        step: 0.01
-      }),
-      new Slider({
-        title: 'Min Tracking Confidence',
-        field: 'minTrackingConfidence',
-        range: [0, 1],
-        step: 0.01
-      }),
-    ])
-    .on(options => {
-      videoElement.classList.toggle('selfie', options.selfieMode);
-        console.log(options);
-      pose.setOptions(options);
-    });
-    */
