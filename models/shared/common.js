@@ -83,7 +83,7 @@ setTimeout(function(){
 
 const dat = require('dat.gui');
 var modelSettings = {
-    'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
+    'model': window.location.pathname.replace("index.html","").split("/models/")[1].replace("/",""),
     'title': function() { return this.model; },
     wsurl: localStorage.getItem("wsurl") || "ws://localhost:44444/",
     reload: function() 
@@ -122,7 +122,7 @@ gui.add(modelSettings, modelSettings.model);
 
 const modelFolder = gui.addFolder('Switch Model');
 modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
-    if(newModel == window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/","")) {
+    if(newModel == window.location.pathname.replace("index.html","").split("/models/")[1].replace("/","")) {
         return;
     }
     else{
