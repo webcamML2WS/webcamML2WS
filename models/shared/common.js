@@ -76,22 +76,23 @@ setTimeout(function(){
 */
 
 
-function closeBrowser() {
-    var x = confirm("Are you sure you want to exit?");
-    if (x) {
-        window.close();
-    }
-}
 
 
 
 const dat = require('dat.gui');
 var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("webcamML2WS/models/")[1].replace("/",""),
+    'title': function() { return this.model; },
     wsurl: localStorage.getItem("wsurl") || "ws://localhost:44444/",
     reload: function() 
     { 
         window.location.reload();
+    },
+    quit: function(){
+        var x = confirm("Are you sure you want to exit?");
+        if (x) {
+            window.close();
+        }
     },
     inputSize: 100,
     selfie: false,
@@ -99,6 +100,8 @@ var modelSettings = {
     detectionThreshold: 0.5,
     trackingThreshold: 0.5
 };
+
+modelSettings[modelSettings.model] = modelSettings.title;
 
 var allModels = ['holistic', 'pose', 'hands', 'objects'];
 allModels.splice(allModels.indexOf(modelSettings.model), 1);
@@ -111,6 +114,9 @@ const gui = new dat.GUI();
 
 // add heading
 
+// add heading
+//
+gui.add(modelSettings, modelSettings.model);
 
 const modelFolder = gui.addFolder('Switch Model');
 modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
@@ -149,8 +155,9 @@ settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (
     updateModel();
 });
 
-var misc = gui.addFolder('Misc');
+var misc = gui.addFolder('App Settings');
 misc.add(modelSettings, 'reload');
+misc.add(modelSettings, 'quit');
 
 modelFolder.open();
 netFolder.open();

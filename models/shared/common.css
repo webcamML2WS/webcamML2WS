@@ -131,14 +131,18 @@ body {
 }
 
 
-#closeButton{
-    position:fixed;
-    right: 10px;
-    top: 10px;
-    font-size: 50px;
-    background: none;
-    color: white;
-    text-shadow: black 0px 0px 10px;
-    box-shadow: none;
+.dg .cr.function:first-of-type{
     border:none;
+    height: 70px;
 }
+
+.dg .cr.function .property-name:first-of-type{
+    text-align:center;
+    font-family:Courier;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 20px 0px;
+}
+
+
+
