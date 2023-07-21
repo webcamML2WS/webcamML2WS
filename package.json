@@ -15,9 +15,7 @@
     "dat.gui": "^0.7.9",
     "electron-squirrel-startup": "^1.0.0",
     "fast-ws-client": "^2.1.0",
-    "fast-ws-server": "^2.5.9",
-    "socket.io": "^4.7.1",
-    "socket.io-client": "^4.7.1"
+    "fast-ws-server": "^2.5.9"
   },
   "description": "",
   "devDependencies": {
