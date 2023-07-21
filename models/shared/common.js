@@ -140,7 +140,7 @@ const settFolder = gui.addFolder('Model Settings');
 
 modelSettings.inputSize = parseInt(localStorage.getItem("inputSize") || 100);
 
-settFolder.add(modelSettings, 'inputSize', 10, 100).step(1).onChange(function (value) {
+settFolder.add(modelSettings, 'inputSize', 10, 100).step(1).onFinish(function (value) {
     localStorage.setItem("inputSize", value);
     window.location.reload();
 });
