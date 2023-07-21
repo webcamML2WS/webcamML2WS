@@ -6,7 +6,6 @@ const canvasElement =
 const controlsElement =
     document.getElementsByClassName('control-panel')[0];
 const canvasCtx = canvasElement.getContext('2d');
-var lerp = require('lerp')
 
 
 /*
