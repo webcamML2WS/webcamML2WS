@@ -11,11 +11,7 @@
     "make": "electron-forge make"
   },
   "dependencies": {
-    "@bdaenen/uwebsockets": "^19.5.0",
-    "dat.gui": "^0.7.9",
-    "electron-squirrel-startup": "^1.0.0",
-    "fast-ws-client": "^2.1.0",
-    "fast-ws-server": "^2.5.9"
+    "dat.gui": "^0.7.9"
   },
   "description": "",
   "devDependencies": {
