@@ -21,14 +21,12 @@ function sendToMaxPatch(poses) {
 }
 */
 
-//uWebSockets.js/NodeJS
-
-
-
+var wsconnect = false;
 var ws;
 function connectws() {
   ws = new WebSocket(modelSettings.wsurl);
   ws.onopen = function() {
+    wsconnect = true;
     // subscribe to some channels
     ws.send(JSON.stringify({
         //.... some message the I must send when I connect ....
@@ -40,14 +38,15 @@ function connectws() {
   };
 
   ws.onclose = function(e) {
-    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    wsconnect = false;
+    //console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
     setTimeout(function() {
       connectws();
     }, 1000);
   };
 
   ws.onerror = function(err) {
-    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    //console.error('Socket encountered error: ', err.message, 'Closing socket');
     ws.close();
   };
 }
@@ -56,8 +55,10 @@ connectws();
 
 
 
-function sendToMaxPatch(poses) {
-    ws.send(JSON.stringify(poses));
+function sendToMaxPatch(m) {
+    if (wsconnect) {
+        ws.send(JSON.stringify(m));
+    }
 }
 
 
