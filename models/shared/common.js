@@ -98,6 +98,7 @@ var modelSettings = {
     },
     inputSize: 100,
     selfie: false,
+    sendImage: false,
     complexity: ['lite', 'full', 'heavy'][0],
     detectionThreshold: 0.5,
     trackingThreshold: 0.5
@@ -133,7 +134,14 @@ modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
 const netFolder = gui.addFolder('Network Settings');
 
 netFolder.add(modelSettings, 'wsurl').onChange(function (value) {
-    //updateNetwork();
+    localStorage.setItem("wsurl", value);
+    ws.close();
+    connectws();
+});
+
+
+netFolder.add(modelSettings, 'sendImage').onChange(function (value) {
+
 });
 
 const settFolder = gui.addFolder('Model Settings');

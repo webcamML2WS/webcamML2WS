@@ -56,17 +56,16 @@ connectws();
 
 
 
-function sendToMaxPatch(m) {
+
+function sendToMaxPatch(ms) {
     if (wsconnect) {
+        m = JSON.parse(JSON.stringify(ms));
+        if(!modelSettings.sendImage && m.image) {
+         delete m.image;
+        }
         ws.send(JSON.stringify(m));
     }
 }
-
-
-function sendToMaxPatch(poses) {
-    ws.send(JSON.stringify(poses));
-}
-
 
 
 // We'll add this to our control panel later, but we'll save it here so we can

@@ -57,6 +57,9 @@ connectws();
 
 function sendToMaxPatch(m) {
     if (wsconnect) {
+        if(!modelSettings.sendImage && m.image) {
+         delete m.image;
+        }
         ws.send(JSON.stringify(m));
     }
 }
