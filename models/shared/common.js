@@ -133,7 +133,7 @@ modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
 
 const netFolder = gui.addFolder('Network Settings');
 
-netFolder.add(modelSettings, 'wsurl').onChange(function (value) {
+netFolder.add(modelSettings, 'wsurl').onFinishChange(function (value) {
     localStorage.setItem("wsurl", value);
     ws.close();
     connectws();
