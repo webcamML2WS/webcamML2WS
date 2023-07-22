@@ -99,11 +99,20 @@ var modelSettings = {
     inputSize: 100,
     selfie: false,
     sendImage: false,
-    complexity: ['lite', 'full', 'heavy'][0],
+    complexity: null,
     detectionThreshold: 0.5,
     trackingThreshold: 0.5
 };
 
+var complex = ['lite', 'full', 'heavy'];
+
+if(modelSettings.model === "face"){
+    complex =  ['short range', 'full range'];
+}
+else if(modelSettings.model === "hands"){
+    complex =  ['lite', 'full'];
+}
+modelSettings["complexity"] = complex[0];
 modelSettings[modelSettings.model] = modelSettings.title;
 
 var allModels = ['holistic', 'pose', 'hands', 'face', 'facemesh'];
@@ -111,7 +120,7 @@ allModels.splice(allModels.indexOf(modelSettings.model), 1);
 
 allModels = [modelSettings.model].concat(allModels);
 
-const gui = new dat.GUI();
+const gui = new dat.GUI({ width: 300 });
 
 
 
@@ -163,17 +172,19 @@ settFolder.add(modelSettings, 'selfie').onChange(function (value) {
     }
 });
 
-settFolder.add(modelSettings, 'complexity', ['lite', 'full','heavy']).onChange(function (value) {
-    updateModel();
+settFolder.add(modelSettings, 'complexity', complex).onChange(function (value) {
+   updateModel();
 });
 
 settFolder.add(modelSettings, 'detectionThreshold', 0.0, 1.0).onChange(function (value) {
     updateModel();
 });
 
-settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (value) {
-    updateModel();
-});
+if(modelSettings.model != "face"){
+    settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (value) {
+        updateModel();
+    });
+}
 
 var misc = gui.addFolder('App Settings');
 misc.add(modelSettings, 'reload');
@@ -188,11 +199,14 @@ misc.open();
 function updateModel()
 {
     theModel.setOptions({
-        modelComplexity: ['lite', 'full', 'heavy'].indexOf(modelSettings.complexity),
+        modelComplexity: complex.indexOf(modelSettings.complexity),
         smoothLandmarks: true,
         enableSegmentation: true,
         smoothSegmentation: true,
         refineFaceLandmarks: true,
+        maxNumFaces: 5,
+        maxFaces: 5,
+        maxNumHands: 4,
         minDetectionConfidence: modelSettings.detectionThreshold,
         minTrackingConfidence: modelSettings.trackingThreshold
     });
