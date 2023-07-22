@@ -211,3 +211,5 @@ function updateModel()
         minTrackingConfidence: modelSettings.trackingThreshold
     });
 }
+
+updateModel();
