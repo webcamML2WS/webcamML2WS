@@ -55,7 +55,8 @@ connectws();
 
 
 
-function sendToMaxPatch(m) {
+function sendToMaxPatch(ms) {
+    m = JSON.parse(JSON.stringify(ms));
     if (wsconnect) {
         if(!modelSettings.sendImage && m.image) {
          delete m.image;
