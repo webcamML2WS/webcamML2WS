@@ -98,7 +98,7 @@ var modelSettings = {
     },
     about: function() 
     { 
-        window.location.href = "https://about.posecaster.com";
+        window.open("https://about.posecaster.com");
     },
     quit: function(){
         var x = confirm("Are you sure you want to exit?");
