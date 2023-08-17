@@ -81,13 +81,11 @@ setTimeout(function(){
 
 
 
-// const dat = require('https://cdn.skypack.dev/dat.gui');
-// add dat.gui from cdn
+/*
 var script = document.createElement('script');
-
 script.src = 'https://cdn.jsdelivr.net/gh/dataarts/dat.gui/dat.gui.min.js';
 document.head.appendChild(script);
- //   var dat = new dat.GUI();
+*/
 
 
 var modelSettings = {
