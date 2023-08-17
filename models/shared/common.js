@@ -125,7 +125,7 @@ else if(modelSettings.model === "hands"){
 modelSettings["complexity"] = complex[0];
 modelSettings[modelSettings.model] = modelSettings.title;
 
-var allModels = ['holistic', 'pose', 'hands', 'face', 'facemesh'];
+var allModels = ['pose', 'hands', 'face', 'facemesh', 'holistic'];
 allModels.splice(allModels.indexOf(modelSettings.model), 1);
 
 allModels = [modelSettings.model].concat(allModels);
