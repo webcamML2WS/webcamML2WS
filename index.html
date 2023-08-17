@@ -7,6 +7,22 @@
 
 
 <title>PoseCaster</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $(document).on("keydown", function(e) {
+        e = e || window.event;
+        if (e.ctrlKey) {
+            var c = e.which || e.keyCode;
+            if (c == 82) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }
+    });
+});
+</script>
+
 </head>
 
 <body style='overflow:hidden;height:100vh;width:100vw;background:black'>
