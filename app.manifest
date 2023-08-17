@@ -1,6 +1,6 @@
 {
   "name": "Posecaster.com",
-  "short_name": "Webcam --> Pose --> Websocket
+  "short_name": "Webcam --> Pose --> Websocket",
   "description": "An open-source, web-based pose detection tool",
   "icons": [
     {
