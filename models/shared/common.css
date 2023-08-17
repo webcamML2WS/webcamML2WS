@@ -40,6 +40,9 @@ body {
   background-color: black;
   height: 720px;
   width: 1280px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
 }
 
 .input_video {
@@ -59,7 +62,7 @@ body {
   height: 720px;
   width: 1280px;
   left: 0;
-  top: 50%;
+  top: 0;
 }
 
 .logo {
