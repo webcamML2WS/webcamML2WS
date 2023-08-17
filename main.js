@@ -149,3 +149,6 @@ ipcMain.on('weather-updated', (event, weather) => {
       tray.setImage(path.join(assetsDirectory, 'sunTemplate.png'))
   }
 })
+
+
+

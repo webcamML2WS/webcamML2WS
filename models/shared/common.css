@@ -59,7 +59,7 @@ body {
   height: 720px;
   width: 1280px;
   left: 0;
-  top: 0;
+  top: 50%;
 }
 
 .logo {

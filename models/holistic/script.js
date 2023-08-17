@@ -62,8 +62,13 @@ function sendToMaxPatch(ms) {
     if (wsconnect) {
         m = JSON.parse(JSON.stringify(ms));
         if(!modelSettings.sendImage && m.image) {
-         delete m.image;
+         //delete m.image;
+           m.imageX = canvasElement.toDataURL()
+           //const canvasCtx = canvasElement.getContext('2d');
+           //m.imageX = canvasCtx.getImageData(0, 0, canvasElement.width, canvasElement.height);
+
         }
+            
         ws.send(JSON.stringify(m));
     }
 }
