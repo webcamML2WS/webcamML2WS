@@ -96,6 +96,10 @@ var modelSettings = {
     { 
         window.location.reload();
     },
+    about: function() 
+    { 
+        window.location.href = "https://about.posecaster.com";
+    },
     quit: function(){
         var x = confirm("Are you sure you want to exit?");
         if (x) {
@@ -195,6 +199,7 @@ if(modelSettings.model != "face"){
 var misc = gui.addFolder('App Settings');
 misc.add(modelSettings, 'reload');
 misc.add(modelSettings, 'quit');
+misc.add(modelSettings, 'about');
 
 modelFolder.open();
 netFolder.open();

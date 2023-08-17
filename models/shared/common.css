@@ -140,6 +140,7 @@ body {
     border:none;
     font-family:Courier;
     height: 30px;
+    background:black;
     font-size: 30px;
     text-transform: uppercase;
     padding: 20px 0px;
