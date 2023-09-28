@@ -56,7 +56,12 @@ var onresize = function() {
     width = document.body.clientWidth;
     height = document.body.clientHeight;
     document.getElementsByClassName("container")[0].style.transform = "scale(" + width/1280 + ") translate(-50%, -50%)";
+    //document.getElementsByClassName("container")[0].style.transform = "scale(" + height/720 + ") translate(-50%, -50%)";
     document.getElementsByClassName("container")[0].style.transformOrigin = "0 0";
+    setTimeout(function(){
+        // This hides the address bar:
+        window.scrollTo(0, 1);
+    }, 0);
 }
 
 
