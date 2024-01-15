@@ -34,6 +34,8 @@
 </body>
 
 <script>
+    alert("Welcome back to PoseCaster! Click on the video to enable background Picture-in-Picture.");
+
     function iframeRef(frameRef) {
         return frameRef.contentWindow
             ? frameRef.contentWindow.document
@@ -65,7 +67,7 @@
     function endPictureInPicture() {
         if (document.pictureInPictureElement) {
             document.exitPictureInPicture()
-            alert("Welcome back to PoseCaster! Click on the video to enable Picture-in-Picture again.");
+            alert("Welcome back to PoseCaster! Click on the video to enable background Picture-in-Picture again.");
         } else {
             // alert("Picture-in-Picture not supported");
         }
