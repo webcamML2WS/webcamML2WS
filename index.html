@@ -30,11 +30,11 @@
     <iframe id='iframe' style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;'
         allow='autoplay; camera; microphone' src='./models/pose/index.html' onload="onModelLoad()"></iframe>
 
-    <video style='display:none' id="video" autoplay muted playsinline></video>
+    <video height=0 width=0 style='display' id="video" autoplay muted playsinline></video>
 </body>
 
 <script>
-    alert("Welcome back to PoseCaster! Click anywhere on this page to enable background Picture-in-Picture.");
+    alert("Welcome to PoseCaster! Click anywhere on this page to enable background Picture-in-Picture.");
 
     function iframeRef(frameRef) {
         return frameRef.contentWindow
