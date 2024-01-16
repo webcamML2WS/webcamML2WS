@@ -49,7 +49,7 @@
 
     // toast 
     M.toast({
-        html: 'Welcome to PoseCaster! Click anywhere on this page to enable background picture-in-picture feature.',
+        html: 'Welcome to PoseCaster! <br>Click anywhere on the video to enable background picture-in-picture feature.',
         displayLength: 10000,
         classes: 'toast'
     });
@@ -86,7 +86,7 @@
         if (document.pictureInPictureElement) {
             document.exitPictureInPicture()
             M.toast({
-                html: 'Welcome back to PoseCaster! Click anywhere on this page to re-enable background picture-in-picture mode.',
+                html: 'Click anywhere on the video to re-enable background picture-in-picture mode.',
                 displayLength: 5000,
                 classes: 'toast'
             });
