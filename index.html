@@ -7,8 +7,20 @@
     <link rel="manifest" href="app.manifest" />
 
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
     <title>PoseCaster</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <style>
+            .toast {
+                background-color: #424242;
+                bottom: 10px;
+                right: 10px;
+            }
+        </style>
     <script type="text/javascript">
         $(document).ready(function () {
             $(document).on("keydown", function (e) {
@@ -34,7 +46,13 @@
 </body>
 
 <script>
-    alert("Welcome to PoseCaster! Click anywhere on this page to enable background Picture-in-Picture.");
+
+    // toast 
+    M.toast({
+        html: 'Welcome to PoseCaster! Click anywhere on this page to enable background picture-in-picture feature.',
+        displayLength: 10000,
+        classes: 'toast'
+    });
 
     function iframeRef(frameRef) {
         return frameRef.contentWindow
@@ -67,7 +85,11 @@
     function endPictureInPicture() {
         if (document.pictureInPictureElement) {
             document.exitPictureInPicture()
-            alert("Welcome back to PoseCaster! Click anywhere on this page to enable background Picture-in-Picture again.");
+            M.toast({
+                html: 'Welcome back to PoseCaster! Click anywhere on this page to re-enable background picture-in-picture mode.',
+                displayLength: 5000,
+                classes: 'toast'
+            });
         } else {
             // alert("Picture-in-Picture not supported");
         }
@@ -86,11 +108,13 @@
 
     document.addEventListener(visibilityChange, function () {
         document_hidden = document[hidden];
+        
             if (document_hidden == true) {
                 videoPicInPic();
             } else {
                 endPictureInPicture();
-            }        
+            }    
+            
     });
 
 </script>

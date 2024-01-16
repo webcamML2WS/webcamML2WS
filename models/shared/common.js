@@ -97,6 +97,9 @@ var modelSettings = {
     'model': window.location.pathname.replace("index.html","").split("/models/")[1].replace("/",""),
     'title': function() { return this.model; },
     wsurl: localStorage.getItem("wsurl") || "ws://localhost:44444/",
+    picinpic: function(){
+        window.videoPicInPic();
+    },
     reload: function() 
     { 
         window.location.reload();
@@ -203,6 +206,7 @@ if(modelSettings.model != "face"){
 
 var misc = gui.addFolder('App Settings');
 misc.add(modelSettings, 'reload');
+//misc.add(modelSettings, 'picinpic');
 misc.add(modelSettings, 'quit');
 misc.add(modelSettings, 'about');
 
