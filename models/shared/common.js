@@ -2,23 +2,22 @@ var theModel;
 var inputSize = 100;
 var camera;
 
-javascript:(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='https://mrdoob.github.io/stats.js/build/stats.min.js';document.head.appendChild(script);})()
+javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = 'https://mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 
-function getXMLHTTPRequest()
-{
+function getXMLHTTPRequest() {
     var request;
     // Lets try using ActiveX to instantiate the XMLHttpRequest object
-    try{
+    try {
         request = new ActiveXObject("Microsoft.XMLHTTP");
-    }catch(ex1){
-        try{
+    } catch (ex1) {
+        try {
             request = new ActiveXObject("Msxml2.XMLHTTP");
-        }catch(ex2){
+        } catch (ex2) {
             request = null;
         }
     }
     // If the previous didn't work, lets check if the browser natively support XMLHttpRequest 
-    if(!request && typeof XMLHttpRequest != "undefined"){
+    if (!request && typeof XMLHttpRequest != "undefined") {
         //The browser does, so lets instantiate the object
         request = new XMLHttpRequest();
     }
@@ -26,16 +25,14 @@ function getXMLHTTPRequest()
 }
 
 
-function loadFile(filename, callback)
-{
+function loadFile(filename, callback) {
     var aXMLHttpRequest = getXMLHTTPRequest();
     var allData;
-    if (aXMLHttpRequest)
-    {
+    if (aXMLHttpRequest) {
         aXMLHttpRequest.open("GET", filename, true);
 
         aXMLHttpRequest.onreadystatechange = function (aEvt) {
-            if(aXMLHttpRequest.readyState == 4){
+            if (aXMLHttpRequest.readyState == 4) {
                 allData = aXMLHttpRequest.responseText;
                 callback(allData)
             }
@@ -44,21 +41,20 @@ function loadFile(filename, callback)
         //Lets fire off the request
         aXMLHttpRequest.send(null);
     }
-    else
-    {
+    else {
         //Oh no, the XMLHttpRequest object couldn't be instantiated.
         alert("A problem occurred instantiating the XMLHttpRequest object.");
     }
 }
 
 
-var onresize = function() {
+var onresize = function () {
     width = document.body.clientWidth;
     height = document.body.clientHeight;
-    document.getElementsByClassName("container")[0].style.transform = "scale(" + width/1280 + ") translate(-50%, -50%)";
+    document.getElementsByClassName("container")[0].style.transform = "scale(" + width / 1280 + ") translate(-50%, -50%)";
     //document.getElementsByClassName("container")[0].style.transform = "scale(" + height/720 + ") translate(-50%, -50%)";
     document.getElementsByClassName("container")[0].style.transformOrigin = "0 0";
-    setTimeout(function(){
+    setTimeout(function () {
         // This hides the address bar:
         window.scrollTo(0, 1);
     }, 1000);
@@ -94,21 +90,19 @@ document.head.appendChild(script);
 
 
 var modelSettings = {
-    'model': window.location.pathname.replace("index.html","").split("/models/")[1].replace("/",""),
-    'title': function() { return this.model; },
+    'model': window.location.pathname.replace("index.html", "").split("/models/")[1].replace("/", ""),
+    'title': function () { return this.model; },
     wsurl: localStorage.getItem("wsurl") || "ws://localhost:44444/",
-    picinpic: function(){
+    picinpic: function () {
         window.videoPicInPic();
     },
-    reload: function() 
-    { 
+    reload: function () {
         window.location.reload();
     },
-    about: function() 
-    { 
+    about: function () {
         window.open("https://about.posecaster.com");
     },
-    quit: function(){
+    quit: function () {
         var x = confirm("Are you sure you want to exit?");
         if (x) {
             window.close();
@@ -124,11 +118,11 @@ var modelSettings = {
 
 var complex = ['lite', 'full', 'heavy'];
 
-if(modelSettings.model === "face"){
-    complex =  ['short range', 'full range'];
+if (modelSettings.model === "face") {
+    complex = ['short range', 'full range'];
 }
-else if(modelSettings.model === "hands"){
-    complex =  ['lite', 'full'];
+else if (modelSettings.model === "hands") {
+    complex = ['lite', 'full'];
 }
 modelSettings["complexity"] = complex[0];
 modelSettings[modelSettings.model] = modelSettings.title;
@@ -149,11 +143,11 @@ const gui = new dat.GUI({ width: 300 });
 gui.add(modelSettings, modelSettings.model);
 
 const modelFolder = gui.addFolder('Switch Model');
-modelFolder.add(modelSettings, 'model', allModels).onChange(function(newModel) {
-    if(newModel == window.location.pathname.replace("index.html","").split("/models/")[1].replace("/","")) {
+modelFolder.add(modelSettings, 'model', allModels).onChange(function (newModel) {
+    if (newModel == window.location.pathname.replace("index.html", "").split("/models/")[1].replace("/", "")) {
         return;
     }
-    else{
+    else {
         window.location.href = "../../models/" + newModel + "/index.html";
     }
 });
@@ -182,23 +176,23 @@ settFolder.add(modelSettings, 'inputSize', 10, 100).step(1).onFinishChange(funct
 
 
 settFolder.add(modelSettings, 'selfie').onChange(function (value) {
-   if(value){
-       document.getElementsByClassName("output_canvas")[0].style.transform = "scale(-1, 1)";
-   }
-    else{
+    if (value) {
+        document.getElementsByClassName("output_canvas")[0].style.transform = "scale(-1, 1)";
+    }
+    else {
         document.getElementsByClassName("output_canvas")[0].style.transform = "";
     }
 });
 
 settFolder.add(modelSettings, 'complexity', complex).onChange(function (value) {
-   updateModel();
+    updateModel();
 });
 
 settFolder.add(modelSettings, 'detectionThreshold', 0.0, 1.0).onChange(function (value) {
     updateModel();
 });
 
-if(modelSettings.model != "face"){
+if (modelSettings.model != "face") {
     settFolder.add(modelSettings, 'trackingThreshold', 0.0, 1.0).onChange(function (value) {
         updateModel();
     });
@@ -216,20 +210,21 @@ settFolder.open();
 misc.open();
 //gui.close();
 
-function updateModel()
-{
-    theModel.setOptions({
-        modelComplexity: complex.indexOf(modelSettings.complexity),
-        smoothLandmarks: true,
-        enableSegmentation: true,
-        smoothSegmentation: true,
-        refineFaceLandmarks: true,
-        maxNumFaces: 5,
-        maxFaces: 5,
-        maxNumHands: 4,
-        minDetectionConfidence: modelSettings.detectionThreshold,
-        minTrackingConfidence: modelSettings.trackingThreshold
-    });
+function updateModel() {
+    if (theModel) {
+        theModel.setOptions({
+            modelComplexity: complex.indexOf(modelSettings.complexity),
+            smoothLandmarks: true,
+            enableSegmentation: true,
+            smoothSegmentation: true,
+            refineFaceLandmarks: true,
+            maxNumFaces: 5,
+            maxFaces: 5,
+            maxNumHands: 4,
+            minDetectionConfidence: modelSettings.detectionThreshold,
+            minTrackingConfidence: modelSettings.trackingThreshold
+        });
+    }
 }
 
 updateModel();
