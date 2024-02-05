@@ -227,4 +227,6 @@ function updateModel() {
     }
 }
 
-updateModel();
+setTimeout(function () {
+    updateModel();
+}, 1000);
