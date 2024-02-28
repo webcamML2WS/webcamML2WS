@@ -55,6 +55,10 @@ function connectws() {
 connectws();
 
 
+var osc = new OSC({
+    port: 8080
+});
+osc.open();
 
 function sendToMaxPatch(ms) {
     if (wsconnect) {
@@ -64,6 +68,8 @@ function sendToMaxPatch(ms) {
         }
         ws.send(JSON.stringify(m));
     }
+
+    osc.send(new OSC.Message('/pose', JSON.stringify(ms)));
 }
 
 
